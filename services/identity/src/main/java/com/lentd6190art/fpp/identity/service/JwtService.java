@@ -1,3 +1,4 @@
+
 package com.lentd6190art.fpp.identity.service;
 
 import io.jsonwebtoken.Claims;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 
@@ -27,7 +29,11 @@ public class JwtService {
         this.accessTokenExpiration = accessTokenExpiration;
     }
 
-    public String generateAccessToken(UUID userId, String email) {
+    public String generateAccessToken(
+            UUID userId,
+            String email,
+            Collection<String> roles
+    ) {
         Date now = new Date();
         Date expiration = new Date(
                 now.getTime() + accessTokenExpiration
@@ -36,6 +42,7 @@ public class JwtService {
         return Jwts.builder()
                 .subject(userId.toString())
                 .claim("email", email)
+                .claim("roles", roles)
                 .issuedAt(now)
                 .expiration(expiration)
                 .signWith(secretKey)

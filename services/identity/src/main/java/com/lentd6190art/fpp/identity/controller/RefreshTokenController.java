@@ -5,7 +5,6 @@ import com.lentd6190art.fpp.identity.dto.RefreshTokenRequest;
 import com.lentd6190art.fpp.identity.dto.RefreshTokenResponse;
 import com.lentd6190art.fpp.identity.entity.RefreshToken;
 import com.lentd6190art.fpp.identity.entity.User;
-import com.lentd6190art.fpp.identity.service.AuthService;
 import com.lentd6190art.fpp.identity.service.JwtService;
 import com.lentd6190art.fpp.identity.service.RefreshTokenService;
 import jakarta.validation.Valid;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import com.lentd6190art.fpp.identity.entity.Role;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -47,8 +47,11 @@ public class RefreshTokenController {
 
         String newRefreshToken = refreshTokenService.create(user);
         String newAccessToken = jwtService.generateAccessToken(
-                user.getId(),
-                user.getEmail()
+        user.getId(),
+        user.getEmail(),
+        user.getRoles().stream()
+                .map(Role::getName)
+                .toList()
         );
 
         return ResponseEntity.ok(new RefreshTokenResponse(
