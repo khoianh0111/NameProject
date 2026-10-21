@@ -21,7 +21,8 @@ public class AuthController {
 
     @GetMapping("/dashboard")
     public String dashboard(Authentication authentication) {
-        if (authentication == null) {
+        if (authentication == null
+                || !authentication.isAuthenticated()) {
             return "redirect:/login";
         }
 
@@ -60,7 +61,7 @@ public class AuthController {
     public String accessDenied(Model model) {
         model.addAttribute(
                 "message",
-                "Bạn không có quyền truy cập trang này."
+                "You do not have permission to access this page."
         );
 
         return "auth/access-denied";

@@ -14,12 +14,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    // Ma hoa mat khau
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Tai khoan demo de kiem tra phan quyen
+    // Tai khoan demo de kiem tra phan quyen khi API chua san sang
     @Bean
     public UserDetailsService userDetailsService(
             PasswordEncoder passwordEncoder) {
@@ -43,7 +44,8 @@ public class SecurityConfig {
 
         http
             .authorizeHttpRequests(auth -> auth
-                // Cac trang va tai nguyen duoc phep truy cap cong khai
+
+                // Trang dang nhap va tai nguyen cong khai
                 .requestMatchers(
                     "/login",
                     "/css/**",
@@ -59,14 +61,15 @@ public class SecurityConfig {
                 .requestMatchers("/admin/**")
                     .hasRole("ADMIN")
 
-                // Dashboard dieu huong yeu cau da dang nhap
+                // Dashboard dieu huong chi danh cho nguoi da dang nhap
                 .requestMatchers("/dashboard")
                     .authenticated()
 
-                // Cac route con lai yeu cau dang nhap
+                // Cac trang con lai yeu cau dang nhap
                 .anyRequest().authenticated()
             )
 
+            // Dang nhap bang form
             .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
@@ -75,11 +78,13 @@ public class SecurityConfig {
                 .permitAll()
             )
 
+            // Dang xuat
             .logout(logout -> logout
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
             )
 
+            // Xu ly khi khong co quyen truy cap
             .exceptionHandling(exception -> exception
                 .accessDeniedPage("/access-denied")
             );
