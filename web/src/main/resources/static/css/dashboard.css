@@ -42,17 +42,28 @@ button {
     cursor: pointer;
 }
 
+/* Hiển thị rõ phần tử đang được chọn bằng bàn phím */
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 3px;
+}
+
 /* ========================================
    2. MAIN LAYOUT
 ======================================== */
 
 .dashboard {
     min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .sidebar {
     width: var(--sidebar-width);
     height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+
     position: fixed;
     top: 0;
     left: 0;
@@ -69,6 +80,7 @@ button {
 .main-content {
     margin-left: var(--sidebar-width);
     min-height: 100vh;
+    min-height: 100dvh;
     padding: 0 36px;
 }
 
@@ -92,6 +104,7 @@ button {
 .brand-icon {
     width: 40px;
     height: 40px;
+    flex-shrink: 0;
 
     display: flex;
     align-items: center;
@@ -136,12 +149,14 @@ button {
     font-size: 13px;
     font-weight: 500;
 
-    transition: background 0.2s ease,
-                color 0.2s ease;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
 }
 
 .nav-item > span:first-child {
     width: 20px;
+    flex-shrink: 0;
     text-align: center;
     font-size: 17px;
 }
@@ -267,6 +282,7 @@ button {
 .status-dot {
     width: 8px;
     height: 8px;
+    flex-shrink: 0;
     border-radius: 50%;
     background: #37bd88;
 }
@@ -365,8 +381,9 @@ button {
 
     box-shadow: 0 4px 15px rgba(35, 42, 80, 0.025);
 
-    transition: transform 0.2s ease,
-                box-shadow 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .stat-card:hover {
@@ -388,6 +405,7 @@ button {
 .stat-icon {
     width: 39px;
     height: 39px;
+    flex-shrink: 0;
 
     display: flex;
     align-items: center;
@@ -550,6 +568,9 @@ button {
         position: relative;
         width: 100%;
         height: auto;
+        max-height: none;
+        overflow: visible;
+
         padding: 15px;
         border-right: none;
         border-bottom: 1px solid var(--border);
@@ -615,5 +636,24 @@ button {
 
     .page-footer {
         flex-direction: column;
+    }
+}
+
+/* ========================================
+   12. ACCESSIBILITY & REDUCED MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
     }
 }

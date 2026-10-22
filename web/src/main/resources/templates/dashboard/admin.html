@@ -14,7 +14,7 @@
 <body>
 <div class="dashboard">
 
-    <!-- Sidebar -->
+    <!-- Sidebar: Thanh điều hướng quản trị -->
     <aside class="sidebar">
 
         <a class="brand" th:href="@{/admin/dashboard}">
@@ -24,34 +24,42 @@
 
         <p class="menu-label">ADMIN WORKSPACE</p>
 
-        <nav class="sidebar-nav">
+        <nav class="sidebar-nav" aria-label="Điều hướng quản trị">
 
-            <a class="nav-item active" th:href="@{/admin/dashboard}">
-                <span>▦</span> Dashboard
+            <a class="nav-item active"
+               th:href="@{/admin/dashboard}"
+               aria-current="page">
+                <span aria-hidden="true">▦</span>
+                Dashboard
             </a>
 
             <a class="nav-item" href="#users">
-                <span>♙</span> Quản lý người dùng
+                <span aria-hidden="true">♙</span>
+                Quản lý người dùng
             </a>
 
             <a class="nav-item" href="#providers">
-                <span>▣</span> Nhà cung cấp
+                <span aria-hidden="true">▣</span>
+                Nhà cung cấp
             </a>
 
             <a class="nav-item" href="#services">
-                <span>▧</span> Quản lý dịch vụ
+                <span aria-hidden="true">▧</span>
+                Quản lý dịch vụ
             </a>
 
             <a class="nav-item" href="#reports">
-                <span>▤</span> Báo cáo hệ thống
+                <span aria-hidden="true">▤</span>
+                Báo cáo hệ thống
             </a>
 
         </nav>
 
+        <!-- Thông tin tài khoản -->
         <div class="sidebar-bottom">
 
             <div class="user-info">
-                <div class="avatar">A</div>
+                <div class="avatar" aria-hidden="true">A</div>
 
                 <div>
                     <strong>Administrator</strong>
@@ -59,6 +67,7 @@
                 </div>
             </div>
 
+            <!-- Spring Security xử lý đăng xuất -->
             <form th:action="@{/logout}" method="post">
                 <button class="logout-button" type="submit">
                     &#8617; Đăng xuất
@@ -69,25 +78,28 @@
 
     </aside>
 
-    <!-- Main content -->
+    <!-- Nội dung chính -->
     <main class="main-content">
 
-        <!-- Topbar -->
+        <!-- Thanh tiêu đề -->
         <header class="topbar">
 
             <div>
-                <p class="breadcrumb">Admin Workspace / Dashboard</p>
+                <p class="breadcrumb">
+                    Admin Workspace / Dashboard
+                </p>
+
                 <h1>Dashboard</h1>
             </div>
 
             <div class="topbar-user">
-                <span class="status-dot"></span>
+                <span class="status-dot" aria-hidden="true"></span>
                 Quản trị viên
             </div>
 
         </header>
 
-        <!-- Welcome section -->
+        <!-- Lời chào -->
         <section class="welcome-section">
 
             <div>
@@ -107,42 +119,51 @@
 
         </section>
 
-        <!-- Demo statistics -->
-        <section class="stats-grid">
+        <!-- Các thẻ thống kê minh họa -->
+        <section class="stats-grid" aria-label="Thống kê hệ thống">
 
+            <!-- Tổng quan người dùng -->
             <article class="stat-card" id="users">
+
                 <div class="stat-heading">
                     <span>Người dùng</span>
-                    <span class="stat-icon blue">♙</span>
+                    <span class="stat-icon blue" aria-hidden="true">♙</span>
                 </div>
 
                 <p class="stat-value">0</p>
                 <p class="stat-note">Dữ liệu minh họa</p>
+
             </article>
 
+            <!-- Tổng quan nhà cung cấp -->
             <article class="stat-card" id="providers">
+
                 <div class="stat-heading">
                     <span>Nhà cung cấp</span>
-                    <span class="stat-icon purple">▣</span>
+                    <span class="stat-icon purple" aria-hidden="true">▣</span>
                 </div>
 
                 <p class="stat-value">0</p>
                 <p class="stat-note">Dữ liệu minh họa</p>
+
             </article>
 
+            <!-- Tổng quan dịch vụ -->
             <article class="stat-card" id="services">
+
                 <div class="stat-heading">
                     <span>Dịch vụ</span>
-                    <span class="stat-icon yellow">▧</span>
+                    <span class="stat-icon yellow" aria-hidden="true">▧</span>
                 </div>
 
                 <p class="stat-value">0</p>
                 <p class="stat-note">Dữ liệu minh họa</p>
+
             </article>
 
         </section>
 
-        <!-- System management -->
+        <!-- Khu vực quản lý hệ thống -->
         <section class="content-card" id="reports">
 
             <div>
@@ -159,7 +180,7 @@
 
         </section>
 
-        <!-- Footer -->
+        <!-- Chân trang -->
         <footer class="page-footer">
             Film Photography Platform · Administrator Portal
         </footer>
