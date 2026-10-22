@@ -20,7 +20,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // Tai khoan demo de kiem tra phan quyen khi API chua san sang
+    // Tai khoan demo trong khi cho API tu nhom truong
     @Bean
     public UserDetailsService userDetailsService(
             PasswordEncoder passwordEncoder) {
@@ -38,6 +38,7 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(provider, admin);
     }
 
+    // Cau hinh phan quyen va bao ve cac trang web
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http) throws Exception {
@@ -54,16 +55,13 @@ public class SecurityConfig {
                 ).permitAll()
 
                 // Chi Provider duoc truy cap khu vuc Provider
-                .requestMatchers("/provider/**")
-                    .hasRole("PROVIDER")
+                .requestMatchers("/provider/**").hasRole("PROVIDER")
 
                 // Chi Admin duoc truy cap khu vuc Admin
-                .requestMatchers("/admin/**")
-                    .hasRole("ADMIN")
+                .requestMatchers("/admin/**").hasRole("ADMIN")
 
                 // Dashboard dieu huong chi danh cho nguoi da dang nhap
-                .requestMatchers("/dashboard")
-                    .authenticated()
+                .requestMatchers("/dashboard").authenticated()
 
                 // Cac trang con lai yeu cau dang nhap
                 .anyRequest().authenticated()
@@ -84,7 +82,7 @@ public class SecurityConfig {
                 .permitAll()
             )
 
-            // Xu ly khi khong co quyen truy cap
+            // Xu ly khi nguoi dung khong co quyen truy cap
             .exceptionHandling(exception -> exception
                 .accessDeniedPage("/access-denied")
             );
