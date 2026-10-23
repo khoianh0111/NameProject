@@ -1,26 +1,27 @@
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+
+# Stage 1: Build Spring Boot application
+FROM maven:3.9-eclipse-temurin-21 AS build
 
 WORKDIR /app
+
+COPY pom.xml .
+COPY .mvn .mvn
+COPY mvnw .
+
+RUN chmod +x mvnw
+RUN ./mvnw -B dependency:go-offline
+
+COPY src ./src
+
+RUN ./mvnw -B -DskipTests clean package
+
+# Stage 2: Run application
+FROM eclipse-temurin:21-jre
+
+WORKDIR /app
+
+COPY --from=build /app/target/identity-service-0.0.1-SNAPSHOT.jar app.jar
+
 EXPOSE 8080
 
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
-
-WORKDIR /src
-COPY ["IdentityService.csproj", "./"]
-
-RUN dotnet restore "IdentityService.csproj"
-
-COPY . .
-
-RUN dotnet build "IdentityService.csproj" -c Release -o /app/build
-
-FROM build AS publish
-
-RUN dotnet publish "IdentityService.csproj" -c Release -o /app/publish /p:UseAppHost=false
-
-FROM base AS final
-
-WORKDIR /app
-COPY --from=publish /app/publish .
-
-ENTRYPOINT ["dotnet", "IdentityService.dll"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
